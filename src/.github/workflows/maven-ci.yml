@@ -1,0 +1,38 @@
+name: Selenium Java CI Pipeline
+
+# Trigger the pipeline on pushes or pull requests to the main branch
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  test:
+    # Use an Ubuntu virtual runner
+    runs-on: ubuntu-latest
+
+    steps:
+    # Step 1: Clone the code from the Git repository onto the runner
+    - name: Checkout Code
+      uses: actions/checkout@v4
+
+    # Step 2: Set up Java Development Kit (JDK) env
+    - name: Set up JDK 17
+      uses: actions/setup-java@v4
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+        cache: 'maven' # Caches dependencies to speed up future runs
+
+    # Step 3: Run the Selenium tests via Maven
+    - name: Execute Selenium Tests
+      run: mvn clean test
+
+    # Step 4: Archive Test Reports (Optional but recommended)
+    - name: Upload TestNG Reports
+      if: always() # Ensures reports upload even if tests fail
+      uses: actions/actions-repository-compliance/upload-artifact@v4
+      with:
+        name: testng-execution-reports
+        path: target/surefire-reports/
