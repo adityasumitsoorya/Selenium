@@ -29,10 +29,10 @@ jobs:
     - name: Execute Selenium Tests
       run: mvn clean test
 
-    # Step 4: Archive Test Reports (Optional but recommended)
-   - name: Upload TestNG Reports
-      if: always() # Ensures reports upload even if tests fail
-      uses: actions/actions-repository-compliance/upload-artifact@v4
-      with:
-        name: testng-execution-reports
-        path: target/surefire-reports/
+#    # Step 4: Archive Test Reports (Optional but recommended)
+#   - name: Upload TestNG Reports
+#      if: always() # Ensures reports upload even if tests fail
+#      uses: actions/actions-repository-compliance/upload-artifact@v4
+#      with:
+#        name: testng-execution-reports
+#        path: target/surefire-reports/
